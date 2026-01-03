@@ -1,0 +1,44 @@
+# Core Data Processing
+arabic-reshaper==3.0.0
+python-bidi==0.6.7
+# pandas==2.3.2
+# pyarrow==21.0.0
+# numpy==2.2.6
+
+# # Visualization
+# matplotlib==3.10.8
+# seaborn==0.13.2
+# plotly
+
+# Data Quality & Profiling
+# great-expectations==0.18.8
+# ydata-profiling==4.6.4
+
+# # Machine Learning & Deep Learning
+# torch==2.1.2
+# torchvision==0.16.2
+# transformers==4.36.2
+# sentence-transformers==2.2.2
+# scikit-learn==1.3.2
+
+# # Vector Database
+# chromadb==0.4.22
+# faiss-cpu==1.7.4
+
+# # Hyperparameter Tuning
+# optuna==3.5.0
+
+# # Experiment Tracking
+# mlflow==2.9.2
+
+# # Configuration Management
+# pyyaml==6.0.1
+# python-dotenv==1.0.0
+
+# # Utilities
+# tqdm==4.66.1
+# pillow==10.1.0
+
+# # Jupyter
+# jupyter==1.0.0
+# ipywidgets==8.1.1

@@ -1,0 +1,66 @@
+# MLOps Project Configuration
+project:
+  name: "torob-rag-system"
+  phase: 1
+  seed: 42
+
+data:
+  raw_path: "Data/"
+  processed_path: "Data/processed/"
+  tables:
+    - "base_products"
+    - "members"
+    - "searches"
+    - "base_views"
+    - "final_clicks"
+    - "shops"
+    - "categories"
+    - "brands"
+    - "cities"
+
+eda:
+  output_dir: "reports/eda/"
+  generate_profile: true
+  plot_distributions: true
+  
+preprocessing:
+  missing_threshold: 0.3  # Drop columns with >30% missing
+  remove_duplicates: true
+  price_min: 0
+  price_max: 1000000000  # 1 billion Tomans
+
+feature_engineering:
+  text:
+    model_name: "HooshvareLab/bert-fa-base-uncased"
+    max_length: 128
+    batch_size: 32
+  
+  image:
+    model_name: "openai/clip-vit-base-patch32"
+    image_size: 224
+    batch_size: 16
+  
+  multimodal:
+    fusion_method: "concatenation"  # Options: concatenation, attention, projection
+
+vector_db:
+  type: "chromadb"
+  collection_name: "torob_products"
+  distance_metric: "cosine"
+  persist_directory: "outputs/vector_db/"
+
+retrieval:
+  top_k: 10
+  rerank: true
+  
+evaluation:
+  metrics:
+    - "ndcg@10"
+    - "recall@10"
+    - "mrr"
+  test_size: 0.2
+  
+experiment_tracking:
+  use_mlflow: true
+  tracking_uri: "mlruns/"
+  experiment_name: "torob-rag-phase1"
