@@ -19,35 +19,51 @@ data:
     - "cities"
 
 eda:
-  output_dir: "reports/eda/"
+  output_dir: "../reports/eda/"
   generate_profile: true
   plot_distributions: true
   
-preprocessing:
+cleaning:
+  placeholder_tokens: ['none', 'null', 'nan', 'n/a', 'na', '-', '--', 'unknown', '?']
+  price_min: 1000  # Minimum valid price (1,000 Toman)
+  price_max: 1000000000000  # Maximum valid price (1 Trillion Toman)
+  remove_zero_prices: true
   missing_threshold: 0.3  # Drop columns with >30% missing
   remove_duplicates: true
-  price_min: 0
-  price_max: 1000000000  # 1 billion Tomans
 
 feature_engineering:
+  sample_size: 5000  # Set to null for full dataset processing
+  
   text:
-    model_name: "HooshvareLab/bert-fa-base-uncased"
+    # Compact sentence embedding model (English-focused, no prefixes needed)
+    # Note: For better Persian support, consider using multilingual-e5-base
+    model_name: "sentence-transformers/all-MiniLM-L12-v2"
     max_length: 128
-    batch_size: 32
+    batch_size: 64  # Increased from 32 for better GPU utilization
   
   image:
     model_name: "openai/clip-vit-base-patch32"
     image_size: 224
-    batch_size: 16
+    batch_size: 32  # Increased from 16 for better GPU utilization
+    cache_dir: "../outputs/image_cache/"
+    download_timeout: 15  # seconds
   
   multimodal:
     fusion_method: "concatenation"  # Options: concatenation, attention, projection
 
+outputs:
+  embeddings_dir: "../outputs/embeddings/"
+  models_dir: "../outputs/models/"
+  image_cache_dir: "../outputs/image_cache/"
+
 vector_db:
   type: "chromadb"
-  collection_name: "torob_products"
+  persist_directory: "../outputs/vector_db/"
+  collections:
+    text: "products_text"
+    image: "products_image"
+    multimodal: "products_multimodal"
   distance_metric: "cosine"
-  persist_directory: "outputs/vector_db/"
 
 retrieval:
   top_k: 10
@@ -62,5 +78,8 @@ evaluation:
   
 experiment_tracking:
   use_mlflow: true
-  tracking_uri: "mlruns/"
+  tracking_uri: "../mlruns/"
   experiment_name: "torob-rag-phase1"
+
+# Global random seed for reproducibility
+random_seed: 42
