@@ -5,8 +5,8 @@ project:
   seed: 42
 
 data:
-  raw_path: "Data/"
-  processed_path: "Data/processed/"
+  raw_path: "../Data/"
+  processed_path: "../Data/processed/"
   tables:
     - "base_products"
     - "members"
@@ -70,16 +70,45 @@ retrieval:
   rerank: true
   
 evaluation:
+  test_dataset_size: 300  # Number of test queries for evaluation
   metrics:
     - "ndcg@10"
     - "recall@10"
     - "mrr"
-  test_size: 0.2
+  test_split: 0.2
+  noise:
+    text:
+      level: 0.08  # Character-level noise ratio (8% for robust testing)
+    image:
+      # Ranges for random uniform sampling: [min, max]
+      blur: [1.0, 3.5]  # Gaussian blur radius range
+      brightness: [0.5, 1.5]  # Brightness enhancement factor range
+      contrast: [0.6, 1.4]  # Contrast enhancement factor range
+      rotation: [-25, 25]  # Rotation angle range in degrees
+      color: [0.5, 1.5]  # Color saturation factor range
+
+hyperparameter_tuning:
+  n_trials: 20  # Number of Optuna optimization trials
+  k_value: 10  # Fixed k for retrieval during tuning
+  alpha_min: 0.0  # Minimum alpha (text weight)
+  alpha_max: 1.0  # Maximum alpha (text weight)
+  objective: "category_hit_rate"  # Options: mrr, precision, category_hit_rate
   
 experiment_tracking:
   use_mlflow: true
   tracking_uri: "../mlruns/"
   experiment_name: "torob-rag-phase1"
+
+# Data versioning
+data_versioning:
+  enabled: true
+  version_file: "../outputs/data_version.json"
+  track:
+    - "data_hash"
+    - "preprocessing_timestamp"
+    - "embeddings_timestamp"
+    - "model_versions"
+    - "config_snapshot"
 
 # Global random seed for reproducibility
 random_seed: 42

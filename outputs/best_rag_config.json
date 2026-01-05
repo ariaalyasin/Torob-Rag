@@ -1,0 +1,26 @@
+{
+  "hyperparameters": {
+    "alpha": 0.7319939418114051,
+    "k": 10
+  },
+  "performance": {
+    "text_only": {
+      "MRR": 0.7411388888888889,
+      "Precision@k": 0.08233333333333331
+    },
+    "image_only": {
+      "MRR": 0.6706798941798942,
+      "Precision@k": 0.07733333333333334,
+      "Category_Hit_Rate@2-10": 0.6033333333333334
+    },
+    "multimodal": {
+      "MRR": 0.7879603174603174,
+      "Precision@k": 0.09466666666666665,
+      "Category_Hit_Rate@2-10": 0.98
+    }
+  },
+  "test_dataset_size": 300,
+  "optimization_trials": 20,
+  "optimization_objective": "Category_Hit_Rate@2-10",
+  "random_seed": 42
+}

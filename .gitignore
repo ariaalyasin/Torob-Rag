@@ -33,7 +33,7 @@ wheels/
 *.pkl
 *.h5
 *.hdf5
-
+!Data/processed/cleaning_metadata.json
 # Models
 *.pt
 *.pth
@@ -41,10 +41,10 @@ wheels/
 *.safetensors
 
 # Outputs
-outputs/
+outputs/*
+!outputs/best_rag_config.json
 reports/figures/
 mlruns/
-
 # Environment
 .env
 .venv
